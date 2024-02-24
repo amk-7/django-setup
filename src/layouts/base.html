@@ -1,0 +1,58 @@
+{% load static %}
+{% load django_browser_reload %}
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    {% tailwind_css %}
+</head>
+<body>
+{% include 'components/sidebar.html' %}
+
+{% include 'components/header.html' %}
+
+{% block content %} {% endblock content %}
+
+{% include 'components/footer.html'  %}
+</body> 
+
+{% django_browser_reload_script %}
+
+{% if messages %}
+    {% for message in messages  %}
+    <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>
+
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+        <script type="text/javascript">
+            let icon = "error";
+            let title = "erreur";
+        </script>
+        {% elif message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+        <script type="text/javascript">
+            let icon = "info";
+            let title = "Info";
+        </script>
+        {% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+        <script type="text/javascript">
+            let icon = "success";
+            let title = "success";
+        </script>
+        {% endif %}
+        <script type="text/javascript">
+            let message = {% autoescape off %} "{{ message }}" {% endautoescape %};
+            Swal.fire({
+                icon: icon,
+                title: title.toUpperCase(),
+                text: message,
+                confirmButtonColor: "#5179d6",
+            });
+        </script>
+    </li>
+    {% endfor %}
+{% endif %}
+
+{% block scripts %}{% endblock scripts %}
+</html>

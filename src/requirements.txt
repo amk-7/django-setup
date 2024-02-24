@@ -1,0 +1,13 @@
+django
+psycopg2-binary
+Pillow==9.5.0
+latex
+jinja2
+Faker
+django-import-export
+django-browser-reload
+django-dbbackup
+sphinx
+furo
+sphinx-rtd-theme
+django-tailwind[reload]
